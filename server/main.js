@@ -9,6 +9,7 @@ Meteor.startup(() => {
 //check to see if data exists in the collection
 //See if the collection has any records
 const numberRecords = Employees.find({}).count();
+console.log(numberRecords);
 if(!numberRecords) {
   // Generate some data...
   _.times(5000, () => {
@@ -18,6 +19,7 @@ if(!numberRecords) {
     const phone = helpers.createCard().phone;*/
 
     Employees.insert({
+      //if value and key are the same, you can use the below es6 syntax
       name,email,phone,
       avatar: image.avatar()
       /*name:name,
@@ -26,4 +28,9 @@ if(!numberRecords) {
     });
   });
 }
+
+
+Meteor.publish('employees', function() {
+  return Employees.find({}, {limit: 20});
+});
 });
